@@ -237,7 +237,7 @@ function CalendarGrid({ checkIns }: { checkIns: CheckIn[] }) {
   }
 
   return (
-    <div className="mt-6 grid grid-cols-7 gap-1.5 sm:gap-2">
+    <div className="mt-6 grid max-w-sm grid-cols-7 gap-1.5 sm:gap-2">
       {days.map((day) => (
         <div
           key={day.key}
