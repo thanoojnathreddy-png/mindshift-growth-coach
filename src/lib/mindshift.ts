@@ -71,7 +71,7 @@ export function computeStats(checkIns: CheckIn[]): Stats {
 
   let current = 0;
   for (let i = sorted.length - 1; i >= 0; i -= 1) {
-    if (sorted[i].repeated) break;
+    if (sorted[i]?.repeated) break;
     current += 1;
   }
 
