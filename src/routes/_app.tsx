@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { CalendarCheck, LayoutDashboard, LineChart, LogOut, Menu, Sparkles, X } from "lucide-react";
+import {
+  CalendarCheck,
+  LayoutDashboard,
+  LineChart,
+  LogOut,
+  Menu,
+  MessageCircleHeart,
+  NotebookPen,
+  Settings,
+  Sparkles,
+  X,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Logo } from "@/components/Logo";
@@ -17,7 +28,10 @@ export const Route = createFileRoute("/_app")({
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/check-in", label: "Daily check-in", icon: CalendarCheck },
+  { to: "/coach", label: "AI Coach", icon: MessageCircleHeart },
+  { to: "/journal", label: "Journal", icon: NotebookPen },
   { to: "/progress", label: "Progress", icon: LineChart },
+  { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
 function AppLayout() {
