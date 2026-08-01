@@ -21,6 +21,7 @@ import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppJournalRouteImport } from './routes/_app.journal'
 import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
 import { Route as AppProgressRouteImport } from './routes/_app.progress'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
@@ -82,6 +83,11 @@ const AppProgressRoute = AppProgressRouteImport.update({
   path: '/progress',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/journal': typeof AppJournalRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
+  '/settings': typeof AppSettingsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/journal': typeof AppJournalRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
+  '/settings': typeof AppSettingsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/_app/journal': typeof AppJournalRoute
   '/_app/onboarding': typeof AppOnboardingRoute
   '/_app/progress': typeof AppProgressRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/journal'
     | '/onboarding'
     | '/progress'
+    | '/settings'
     | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/journal'
     | '/onboarding'
     | '/progress'
+    | '/settings'
     | '/api/chat'
   id:
     | '__root__'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/_app/journal'
     | '/_app/onboarding'
     | '/_app/progress'
+    | '/_app/settings'
     | '/api/chat'
   fileRoutesById: FileRoutesById
 }
@@ -274,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProgressRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -291,6 +310,7 @@ interface AppRouteChildren {
   AppJournalRoute: typeof AppJournalRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppProgressRoute: typeof AppProgressRoute
+  AppSettingsRoute: typeof AppSettingsRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -300,6 +320,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppJournalRoute: AppJournalRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppProgressRoute: AppProgressRoute,
+  AppSettingsRoute: AppSettingsRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
