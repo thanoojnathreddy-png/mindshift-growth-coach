@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AppCheckInRouteImport } from './routes/_app.check-in'
+import { Route as AppCoachRouteImport } from './routes/_app.coach'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
 import { Route as AppProgressRouteImport } from './routes/_app.progress'
@@ -55,6 +56,11 @@ const AppCheckInRoute = AppCheckInRouteImport.update({
   path: '/check-in',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCoachRoute = AppCoachRouteImport.update({
+  id: '/coach',
+  path: '/coach',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/check-in': typeof AppCheckInRoute
+  '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/check-in': typeof AppCheckInRoute
+  '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_app/check-in': typeof AppCheckInRoute
+  '/_app/coach': typeof AppCoachRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/onboarding': typeof AppOnboardingRoute
   '/_app/progress': typeof AppProgressRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/check-in'
+    | '/coach'
     | '/dashboard'
     | '/onboarding'
     | '/progress'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/check-in'
+    | '/coach'
     | '/dashboard'
     | '/onboarding'
     | '/progress'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/_app/check-in'
+    | '/_app/coach'
     | '/_app/dashboard'
     | '/_app/onboarding'
     | '/_app/progress'
@@ -215,6 +227,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCheckInRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/coach': {
+      id: '/_app/coach'
+      path: '/coach'
+      fullPath: '/coach'
+      preLoaderRoute: typeof AppCoachRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
@@ -248,6 +267,7 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppCheckInRoute: typeof AppCheckInRoute
+  AppCoachRoute: typeof AppCoachRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppProgressRoute: typeof AppProgressRoute
@@ -255,6 +275,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppCheckInRoute: AppCheckInRoute,
+  AppCoachRoute: AppCoachRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppProgressRoute: AppProgressRoute,
