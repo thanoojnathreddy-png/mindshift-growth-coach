@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, HeartHandshake, X } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { ArrowRight, Check, HeartHandshake, MessageCircleHeart, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchCheckIns, todayISO } from "@/lib/mindshift";
+import { getCheckInReflection } from "@/lib/coach.functions";
+import { CoachMarkdown } from "@/components/coach/CoachMarkdown";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app/check-in")({
