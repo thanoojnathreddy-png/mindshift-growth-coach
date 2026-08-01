@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, HeartHandshake, X } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { ArrowRight, Check, HeartHandshake, MessageCircleHeart, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchCheckIns, todayISO } from "@/lib/mindshift";
+import { getCheckInReflection } from "@/lib/coach.functions";
+import { CoachMarkdown } from "@/components/coach/CoachMarkdown";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app/check-in")({
@@ -30,10 +34,13 @@ function CheckInPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const reflect = useServerFn(getCheckInReflection);
   const [repeated, setRepeated] = useState<boolean | null>(null);
   const [whatHappened, setWhatHappened] = useState("");
   const [triggerNote, setTriggerNote] = useState("");
   const [feeling, setFeeling] = useState("");
+  const [reflection, setReflection] = useState<string | null>(null);
+  const [reflecting, setReflecting] = useState(false);
 
   const { data: checkIns } = useQuery({
     queryKey: ["check-ins", user?.id],
@@ -60,16 +67,68 @@ function CheckInPage() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["check-ins", user?.id] });
+      await queryClient.invalidateQueries({ queryKey: ["daily-coaching", user?.id] });
+      await queryClient.invalidateQueries({ queryKey: ["weekly-insight", user?.id] });
       toast.success(
         repeated ? "Logged. Thank you for being honest with yourself." : "Logged. That's a win.",
       );
-      navigate({ to: "/dashboard" });
+      setReflecting(true);
+      try {
+        const result = await reflect({ data: undefined });
+        setReflection(result.message);
+      } catch {
+        toast.error("Saved, but your coach couldn't respond just now.");
+        navigate({ to: "/dashboard" });
+      } finally {
+        setReflecting(false);
+      }
     },
     onError: (error: Error) => toast.error(error.message),
   });
 
   const canSubmit =
     repeated === false || (repeated === true && whatHappened.trim() && feeling.trim());
+
+  if (reflecting || reflection) {
+    return (
+      <div className="hero-glow min-h-screen px-5 py-10">
+        <div className="mx-auto max-w-2xl">
+          <header className="animate-rise">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+              Check-in saved
+            </p>
+            <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">Your coach's reflection</h1>
+          </header>
+          <div className="surface-card mt-7 animate-rise rounded-3xl p-7">
+            <MessageCircleHeart className="h-6 w-6 text-primary" />
+            {reflection ? (
+              <div className="mt-4 text-base leading-relaxed">
+                <CoachMarkdown>{reflection}</CoachMarkdown>
+              </div>
+            ) : (
+              <div className="mt-5 space-y-2">
+                <Skeleton className="h-4 w-full rounded-lg" />
+                <Skeleton className="h-4 w-5/6 rounded-lg" />
+                <Skeleton className="h-4 w-3/5 rounded-lg" />
+              </div>
+            )}
+          </div>
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+            <Button asChild className="rounded-xl">
+              <Link to="/coach">
+                Keep talking about it
+                <ArrowRight className="ml-1.5 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="rounded-xl">
+              <Link to="/dashboard">Back to dashboard</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="hero-glow min-h-screen px-5 py-10">

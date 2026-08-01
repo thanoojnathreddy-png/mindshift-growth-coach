@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          client_message_id: string | null
+          content: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          client_message_id?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          client_message_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       check_ins: {
         Row: {
           check_in_date: string
@@ -47,6 +74,66 @@ export type Database = {
         }
         Relationships: []
       }
+      coach_messages: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          message: string
+          message_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          message: string
+          message_date?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          message?: string
+          message_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      journal_entries: {
+        Row: {
+          content: string
+          created_at: string
+          entry_date: string
+          id: string
+          mood: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          mood?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          mood?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -54,8 +141,10 @@ export type Database = {
           future_self: string | null
           habit: string | null
           id: string
+          journey_started_at: string
           motivation: string | null
           onboarding_completed: boolean
+          reminder_preference: string | null
           triggers: string | null
           updated_at: string
         }
@@ -65,8 +154,10 @@ export type Database = {
           future_self?: string | null
           habit?: string | null
           id: string
+          journey_started_at?: string
           motivation?: string | null
           onboarding_completed?: boolean
+          reminder_preference?: string | null
           triggers?: string | null
           updated_at?: string
         }
@@ -76,10 +167,54 @@ export type Database = {
           future_self?: string | null
           habit?: string | null
           id?: string
+          journey_started_at?: string
           motivation?: string | null
           onboarding_completed?: boolean
+          reminder_preference?: string | null
           triggers?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      weekly_insights: {
+        Row: {
+          best_day: string | null
+          common_emotion: string | null
+          common_trigger: string | null
+          created_at: string
+          id: string
+          summary: string
+          trend: string | null
+          updated_at: string
+          user_id: string
+          week_start: string
+          worst_day: string | null
+        }
+        Insert: {
+          best_day?: string | null
+          common_emotion?: string | null
+          common_trigger?: string | null
+          created_at?: string
+          id?: string
+          summary: string
+          trend?: string | null
+          updated_at?: string
+          user_id: string
+          week_start: string
+          worst_day?: string | null
+        }
+        Update: {
+          best_day?: string | null
+          common_emotion?: string | null
+          common_trigger?: string | null
+          created_at?: string
+          id?: string
+          summary?: string
+          trend?: string | null
+          updated_at?: string
+          user_id?: string
+          week_start?: string
+          worst_day?: string | null
         }
         Relationships: []
       }

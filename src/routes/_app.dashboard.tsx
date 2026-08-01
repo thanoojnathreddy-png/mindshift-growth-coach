@@ -1,22 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   ArrowRight,
   CalendarCheck,
   Flame,
-  Quote,
+  Lightbulb,
+  MessageCircleHeart,
+  NotebookPen,
+  RefreshCcw,
   Sparkles,
   Target,
   TrendingUp,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  computeStats,
-  dailyMotivation,
-  fetchCheckIns,
-  fetchProfile,
-  todayISO,
-} from "@/lib/mindshift";
+import { computeStats, fetchCheckIns, fetchProfile, todayISO } from "@/lib/mindshift";
+import { fetchJournal } from "@/lib/growth";
+import { getDailyCoaching, getWeeklyInsight } from "@/lib/coach.functions";
+import { CoachMarkdown } from "@/components/coach/CoachMarkdown";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -25,11 +26,14 @@ export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard — MindShift" },
-      { name: "description", content: "Your commitment, streak and today's check-in in one place." },
+      {
+        name: "description",
+        content: "Your AI coach, streak and today's check-in in one calm place.",
+      },
       { property: "og:title", content: "Dashboard — MindShift" },
       {
         property: "og:description",
-        content: "Your commitment, streak and today's check-in in one place.",
+        content: "Your AI coach, streak and today's check-in in one calm place.",
       },
     ],
   }),
@@ -38,6 +42,8 @@ export const Route = createFileRoute("/_app/dashboard")({
 
 function DashboardPage() {
   const { user } = useAuth();
+  const dailyCoaching = useServerFn(getDailyCoaching);
+  const weeklyInsight = useServerFn(getWeeklyInsight);
 
   const profileQuery = useQuery({
     queryKey: ["profile", user?.id],
@@ -51,11 +57,36 @@ function DashboardPage() {
     enabled: Boolean(user?.id),
   });
 
+  const journalQuery = useQuery({
+    queryKey: ["journal", user?.id],
+    queryFn: () => fetchJournal(user!.id, 3),
+    enabled: Boolean(user?.id),
+  });
+
   const profile = profileQuery.data;
+  const ready = Boolean(user?.id) && Boolean(profile?.onboarding_completed);
+
+  const coachQuery = useQuery({
+    queryKey: ["daily-coaching", user?.id, todayISO()],
+    queryFn: () => dailyCoaching({ data: {} }),
+    enabled: ready,
+    staleTime: Infinity,
+    retry: false,
+  });
+
+  const insightQuery = useQuery({
+    queryKey: ["weekly-insight", user?.id],
+    queryFn: () => weeklyInsight({ data: {} }),
+    enabled: ready,
+    staleTime: 1000 * 60 * 30,
+    retry: false,
+  });
+
   const checkIns = checkInsQuery.data ?? [];
   const stats = computeStats(checkIns);
   const today = checkIns.find((entry) => entry.check_in_date === todayISO());
   const firstName = profile?.display_name?.split(" ")[0] ?? "there";
+  const insight = insightQuery.data?.insight ?? null;
 
   if (profileQuery.isLoading) {
     return (
@@ -74,7 +105,7 @@ function DashboardPage() {
           <Sparkles className="mx-auto h-7 w-7 text-primary" />
           <h1 className="mt-4 text-xl font-semibold">Let's set your commitment</h1>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            Four short questions and your dashboard comes alive.
+            Four short questions and your coach can start working with you.
           </p>
           <Button asChild className="mt-6 rounded-xl">
             <Link to="/onboarding">
@@ -106,38 +137,50 @@ function DashboardPage() {
           </p>
         </header>
 
-        <section className="mt-8 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-          <div className="surface-card rounded-3xl p-7">
+        {/* AI coach note — the centrepiece of the dashboard. */}
+        <section className="surface-card mt-8 animate-rise rounded-3xl p-7">
+          <div className="flex items-center justify-between gap-3">
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              <Target className="h-3.5 w-3.5 text-primary" />
-              Current commitment
+              <MessageCircleHeart className="h-3.5 w-3.5 text-primary" />
+              Your coach, today
             </span>
-            <p className="mt-4 text-lg font-medium leading-relaxed">
-              {profile?.habit ?? "No commitment set yet."}
-            </p>
-            {profile?.future_self && (
-              <p className="mt-5 rounded-2xl bg-muted/60 p-4 text-sm leading-relaxed text-muted-foreground">
-                <span className="font-medium text-foreground">Becoming: </span>
-                {profile.future_self}
-              </p>
-            )}
-            <Button asChild variant="ghost" size="sm" className="mt-4 rounded-xl px-2">
-              <Link to="/onboarding">Update my answers</Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="rounded-xl text-muted-foreground"
+              disabled={coachQuery.isFetching}
+              onClick={() => coachQuery.refetch()}
+              aria-label="Refresh coaching"
+            >
+              <RefreshCcw className={coachQuery.isFetching ? "h-3.5 w-3.5 animate-spin" : "h-3.5 w-3.5"} />
             </Button>
           </div>
 
-          {/* PLACEHOLDER: AI coaching. Swap dailyMotivation() for a generated, context-aware note. */}
-          <div className="surface-card flex flex-col justify-between rounded-3xl p-7">
-            <div>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                <Quote className="h-3.5 w-3.5 text-primary" />
-                Today's motivation
-              </span>
-              <p className="mt-4 text-base leading-relaxed">{dailyMotivation()}</p>
+          {coachQuery.isPending ? (
+            <div className="mt-5 space-y-2">
+              <Skeleton className="h-4 w-full rounded-lg" />
+              <Skeleton className="h-4 w-4/5 rounded-lg" />
             </div>
-            <p className="mt-6 text-xs text-muted-foreground">
-              AI-personalised coaching arrives in a future release.
+          ) : coachQuery.isError ? (
+            <p className="mt-4 text-sm text-muted-foreground">
+              Your coach couldn't be reached right now. Try refreshing in a moment.
             </p>
+          ) : (
+            <div className="mt-4 text-base leading-relaxed">
+              <CoachMarkdown>{coachQuery.data?.message ?? ""}</CoachMarkdown>
+            </div>
+          )}
+
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+            <Button asChild className="rounded-xl">
+              <Link to="/coach">
+                Talk to your coach
+                <ArrowRight className="ml-1.5 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="rounded-xl">
+              <Link to="/check-in">{today ? "Update today's check-in" : "Check in for today"}</Link>
+            </Button>
           </div>
         </section>
 
@@ -157,44 +200,96 @@ function DashboardPage() {
           />
         </section>
 
-        <section className="mt-5 grid gap-5 lg:grid-cols-[1fr_1.2fr]">
+        <section className="mt-5 grid gap-5 lg:grid-cols-[1.2fr_1fr]">
           <div className="surface-card rounded-3xl p-7">
-            <h2 className="text-lg font-semibold">Today's check-in</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              {today
-                ? today.repeated
-                  ? "You logged a slip today. That honesty is what changes the pattern."
-                  : "You stayed with your commitment today. Well done."
-                : "Thirty seconds. No judgement, whatever the answer is."}
-            </p>
-            <Button asChild className="mt-6 w-full rounded-xl">
-              <Link to="/check-in">
-                {today ? "Update today's check-in" : "Check in for today"}
-                <ArrowRight className="ml-1.5 h-4 w-4" />
-              </Link>
-            </Button>
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <Lightbulb className="h-3.5 w-3.5 text-primary" />
+              This week's insight
+            </span>
+            {insightQuery.isPending ? (
+              <div className="mt-5 space-y-2">
+                <Skeleton className="h-4 w-full rounded-lg" />
+                <Skeleton className="h-4 w-3/5 rounded-lg" />
+              </div>
+            ) : insight ? (
+              <>
+                <p className="mt-4 text-base leading-relaxed">{insight.summary}</p>
+                <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <InsightFact label="Common trigger" value={insight.common_trigger} />
+                  <InsightFact label="Common emotion" value={insight.common_emotion} />
+                  <InsightFact label="Strongest day" value={insight.best_day} />
+                  <InsightFact label="Hardest day" value={insight.worst_day} />
+                </dl>
+              </>
+            ) : (
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                A few more check-ins and your coach will start spotting patterns across your week.
+              </p>
+            )}
           </div>
 
           <div className="surface-card rounded-3xl p-7">
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="text-lg font-semibold">Progress summary</h2>
-              <Button asChild variant="ghost" size="sm" className="rounded-xl">
-                <Link to="/progress">Details</Link>
-              </Button>
-            </div>
-            <div className="mt-5 space-y-5">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <Target className="h-3.5 w-3.5 text-primary" />
+              Current commitment
+            </span>
+            <p className="mt-4 text-base font-medium leading-relaxed">
+              {profile?.habit ?? "No commitment set yet."}
+            </p>
+            {profile?.future_self && (
+              <p className="mt-4 rounded-2xl bg-muted/60 p-4 text-sm leading-relaxed text-muted-foreground">
+                <span className="font-medium text-foreground">Becoming: </span>
+                {profile.future_self}
+              </p>
+            )}
+            <div className="mt-5 space-y-4">
               <SummaryRow label="Clean days" value={stats.cleanDays} total={stats.totalCheckIns} />
               <SummaryRow label="Slips" value={stats.slipDays} total={stats.totalCheckIns} />
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Longest streak</span>
-                <span className="font-medium">
-                  {stats.longestStreak} {stats.longestStreak === 1 ? "day" : "days"}
-                </span>
-              </div>
             </div>
+            <Button asChild variant="ghost" size="sm" className="mt-4 rounded-xl px-2">
+              <Link to="/settings">Edit commitment</Link>
+            </Button>
+          </div>
+        </section>
+
+        <section className="surface-card mt-5 rounded-3xl p-7">
+          <div className="flex items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <NotebookPen className="h-3.5 w-3.5 text-primary" />
+              Recent journal
+            </span>
+            <Button asChild variant="ghost" size="sm" className="rounded-xl">
+              <Link to="/journal">Open journal</Link>
+            </Button>
+          </div>
+          <div className="mt-4 space-y-3">
+            {(journalQuery.data ?? []).length === 0 ? (
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Nothing written yet. A short entry gives your coach much more to work with.
+              </p>
+            ) : (
+              (journalQuery.data ?? []).map((entry) => (
+                <div key={entry.id} className="rounded-2xl bg-muted/60 p-4">
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    {entry.entry_date}
+                    {entry.mood ? ` · ${entry.mood}` : ""}
+                  </p>
+                  <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed">{entry.content}</p>
+                </div>
+              ))
+            )}
           </div>
         </section>
       </div>
+    </div>
+  );
+}
+
+function InsightFact({ label, value }: { label: string; value: string | null }) {
+  return (
+    <div className="rounded-2xl bg-muted/60 p-4">
+      <dt className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</dt>
+      <dd className="mt-1 text-sm font-medium capitalize">{value ?? "—"}</dd>
     </div>
   );
 }
