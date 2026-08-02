@@ -50,6 +50,14 @@ function DashboardPage() {
   const { user } = useAuth();
   const dailyCoaching = useServerFn(getDailyCoaching);
   const weeklyInsight = useServerFn(getWeeklyInsight);
+  const [interventionOpen, setInterventionOpen] = useState(false);
+
+  const interventionsQuery = useQuery({
+    queryKey: ["interventions", user?.id],
+    queryFn: () => fetchInterventions(user!.id, 30),
+    enabled: Boolean(user?.id),
+  });
+
 
   const profileQuery = useQuery({
     queryKey: ["profile", user?.id],
