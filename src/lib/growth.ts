@@ -125,6 +125,7 @@ export async function resetJourney(userId: string, mode: "commitment" | "everyth
       motivation: null,
       triggers: null,
       future_self: null,
+      future_self_message: null,
       onboarding_completed: false,
       journey_started_at: new Date().toISOString(),
     })
