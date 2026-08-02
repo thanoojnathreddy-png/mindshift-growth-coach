@@ -63,6 +63,12 @@ const steps: {
     helper: "Describe them in the present tense, as if it's already true.",
     placeholder: "Someone calm and rested who keeps promises to themselves.",
   },
+  {
+    key: "future_self_message",
+    question: "Write something you want your future self to remember when you're tempted.",
+    helper: "Private to you. We'll show it back unedited during interventions.",
+    placeholder: "You always regret this by morning. Go to bed — tomorrow-you will thank you.",
+  },
 ];
 
 function OnboardingPage() {
@@ -75,6 +81,7 @@ function OnboardingPage() {
     motivation: "",
     triggers: "",
     future_self: "",
+    future_self_message: "",
   });
 
   useQuery({
