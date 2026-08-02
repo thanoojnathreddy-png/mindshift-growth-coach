@@ -333,7 +333,13 @@ function DashboardPage() {
             )}
           </div>
         </section>
+
+        <div className="mt-5">
+          <ConsequenceDashboard />
+        </div>
       </div>
+
+      {interventionOpen && <InterventionMode onClose={() => setInterventionOpen(false)} />}
     </div>
   );
 }
