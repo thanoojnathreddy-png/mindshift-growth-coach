@@ -96,6 +96,7 @@ function DashboardPage() {
     retry: false,
   });
 
+  const interventionPattern = interventionPatterns(interventionsQuery.data ?? []);
   const checkIns = checkInsQuery.data ?? [];
   const stats = computeStats(checkIns);
   const today = checkIns.find((entry) => entry.check_in_date === todayISO());
@@ -150,6 +151,44 @@ function DashboardPage() {
               : "One honest question is waiting for you."}
           </p>
         </header>
+
+        {/* Behavioural intervention entry point — the fastest path out of autopilot. */}
+        <section className="surface-card mt-7 animate-rise rounded-3xl border-primary/30 p-7">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <LifeBuoy className="h-3.5 w-3.5 text-primary" />
+                Feeling the urge right now?
+              </span>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+                Ten seconds, your own reason, and one alternative. No judgement, whatever you decide
+                afterwards.
+              </p>
+            </div>
+            <Button
+              size="lg"
+              className="shrink-0 rounded-2xl px-7 py-6 text-base"
+              onClick={() => setInterventionOpen(true)}
+            >
+              <ShieldCheck className="mr-2 h-5 w-5" />
+              I'm about to slip
+            </Button>
+          </div>
+          {interventionPattern.observations.length > 0 && (
+            <div className="mt-6 space-y-2">
+              {interventionPattern.observations.slice(0, 2).map((line) => (
+                <p key={line} className="rounded-2xl bg-muted/60 p-4 text-sm leading-relaxed">
+                  {line}
+                </p>
+              ))}
+              <Button asChild variant="ghost" size="sm" className="rounded-xl px-2">
+                <Link to="/interventions">See all interventions</Link>
+              </Button>
+            </div>
+          )}
+        </section>
+
+
 
         {/* AI coach note — the centrepiece of the dashboard. */}
         <section className="surface-card mt-8 animate-rise rounded-3xl p-7">
