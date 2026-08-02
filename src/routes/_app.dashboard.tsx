@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -5,10 +6,12 @@ import {
   ArrowRight,
   CalendarCheck,
   Flame,
+  LifeBuoy,
   Lightbulb,
   MessageCircleHeart,
   NotebookPen,
   RefreshCcw,
+  ShieldCheck,
   Sparkles,
   Target,
   TrendingUp,
@@ -16,8 +19,11 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { computeStats, fetchCheckIns, fetchProfile, todayISO } from "@/lib/mindshift";
 import { fetchJournal } from "@/lib/growth";
+import { fetchInterventions, interventionPatterns } from "@/lib/intervention";
 import { getDailyCoaching, getWeeklyInsight } from "@/lib/coach.functions";
 import { CoachMarkdown } from "@/components/coach/CoachMarkdown";
+import { InterventionMode } from "@/components/intervention/InterventionMode";
+import { ConsequenceDashboard } from "@/components/intervention/ConsequenceDashboard";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
