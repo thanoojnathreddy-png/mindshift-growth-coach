@@ -10,6 +10,7 @@ import {
   MessageCircleHeart,
   NotebookPen,
   Settings,
+  ShieldCheck,
   Sparkles,
   X,
 } from "lucide-react";
@@ -29,6 +30,7 @@ const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/check-in", label: "Daily check-in", icon: CalendarCheck },
   { to: "/coach", label: "AI Coach", icon: MessageCircleHeart },
+  { to: "/interventions", label: "Interventions", icon: ShieldCheck },
   { to: "/journal", label: "Journal", icon: NotebookPen },
   { to: "/progress", label: "Progress", icon: LineChart },
   { to: "/settings", label: "Settings", icon: Settings },
