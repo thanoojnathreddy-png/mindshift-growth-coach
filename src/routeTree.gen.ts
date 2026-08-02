@@ -18,6 +18,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AppCheckInRouteImport } from './routes/_app.check-in'
 import { Route as AppCoachRouteImport } from './routes/_app.coach'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppInterventionsRouteImport } from './routes/_app.interventions'
 import { Route as AppJournalRouteImport } from './routes/_app.journal'
 import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
 import { Route as AppProgressRouteImport } from './routes/_app.progress'
@@ -68,6 +69,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppInterventionsRoute = AppInterventionsRouteImport.update({
+  id: '/interventions',
+  path: '/interventions',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppJournalRoute = AppJournalRouteImport.update({
   id: '/journal',
   path: '/journal',
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/check-in': typeof AppCheckInRoute
   '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
+  '/interventions': typeof AppInterventionsRoute
   '/journal': typeof AppJournalRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/check-in': typeof AppCheckInRoute
   '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
+  '/interventions': typeof AppInterventionsRoute
   '/journal': typeof AppJournalRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/_app/check-in': typeof AppCheckInRoute
   '/_app/coach': typeof AppCoachRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/interventions': typeof AppInterventionsRoute
   '/_app/journal': typeof AppJournalRoute
   '/_app/onboarding': typeof AppOnboardingRoute
   '/_app/progress': typeof AppProgressRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/check-in'
     | '/coach'
     | '/dashboard'
+    | '/interventions'
     | '/journal'
     | '/onboarding'
     | '/progress'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/check-in'
     | '/coach'
     | '/dashboard'
+    | '/interventions'
     | '/journal'
     | '/onboarding'
     | '/progress'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/_app/check-in'
     | '/_app/coach'
     | '/_app/dashboard'
+    | '/_app/interventions'
     | '/_app/journal'
     | '/_app/onboarding'
     | '/_app/progress'
@@ -265,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/interventions': {
+      id: '/_app/interventions'
+      path: '/interventions'
+      fullPath: '/interventions'
+      preLoaderRoute: typeof AppInterventionsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/journal': {
       id: '/_app/journal'
       path: '/journal'
@@ -307,6 +326,7 @@ interface AppRouteChildren {
   AppCheckInRoute: typeof AppCheckInRoute
   AppCoachRoute: typeof AppCoachRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppInterventionsRoute: typeof AppInterventionsRoute
   AppJournalRoute: typeof AppJournalRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppProgressRoute: typeof AppProgressRoute
@@ -317,6 +337,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCheckInRoute: AppCheckInRoute,
   AppCoachRoute: AppCoachRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppInterventionsRoute: AppInterventionsRoute,
   AppJournalRoute: AppJournalRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppProgressRoute: AppProgressRoute,
