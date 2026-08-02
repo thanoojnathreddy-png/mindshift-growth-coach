@@ -104,6 +104,143 @@ export type Database = {
         }
         Relationships: []
       }
+      consequence_logs: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          log_date: string
+          metric_id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          log_date?: string
+          metric_id: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          log_date?: string
+          metric_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consequence_logs_metric_id_fkey"
+            columns: ["metric_id"]
+            isOneToOne: false
+            referencedRelation: "consequence_metrics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consequence_metrics: {
+        Row: {
+          amount_per_slip: number
+          created_at: string
+          id: string
+          label: string
+          unit: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_per_slip?: number
+          created_at?: string
+          id?: string
+          label: string
+          unit: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_per_slip?: number
+          created_at?: string
+          id?: string
+          label?: string
+          unit?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      if_then_plans: {
+        Row: {
+          alternative: string
+          created_at: string
+          id: string
+          trigger_key: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alternative: string
+          created_at?: string
+          id?: string
+          trigger_key: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          alternative?: string
+          created_at?: string
+          id?: string
+          trigger_key?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      interventions: {
+        Row: {
+          alternative_suggested: string | null
+          coaching_style: string | null
+          commitment: string | null
+          created_at: string
+          decision: string | null
+          emotion: string | null
+          helped: boolean | null
+          id: string
+          message: string | null
+          trigger_key: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alternative_suggested?: string | null
+          coaching_style?: string | null
+          commitment?: string | null
+          created_at?: string
+          decision?: string | null
+          emotion?: string | null
+          helped?: boolean | null
+          id?: string
+          message?: string | null
+          trigger_key?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          alternative_suggested?: string | null
+          coaching_style?: string | null
+          commitment?: string | null
+          created_at?: string
+          decision?: string | null
+          emotion?: string | null
+          helped?: boolean | null
+          id?: string
+          message?: string | null
+          trigger_key?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       journal_entries: {
         Row: {
           content: string
@@ -136,9 +273,13 @@ export type Database = {
       }
       profiles: {
         Row: {
+          ai_personalization: boolean
+          coaching_styles: string[]
           created_at: string
           display_name: string | null
+          friction_level: string
           future_self: string | null
+          future_self_message: string | null
           habit: string | null
           id: string
           journey_started_at: string
@@ -149,9 +290,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          ai_personalization?: boolean
+          coaching_styles?: string[]
           created_at?: string
           display_name?: string | null
+          friction_level?: string
           future_self?: string | null
+          future_self_message?: string | null
           habit?: string | null
           id: string
           journey_started_at?: string
@@ -162,9 +307,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          ai_personalization?: boolean
+          coaching_styles?: string[]
           created_at?: string
           display_name?: string | null
+          friction_level?: string
           future_self?: string | null
+          future_self_message?: string | null
           habit?: string | null
           id?: string
           journey_started_at?: string
