@@ -30,6 +30,7 @@ type Answers = {
   motivation: string;
   triggers: string;
   future_self: string;
+  future_self_message: string;
 };
 
 const steps: {
