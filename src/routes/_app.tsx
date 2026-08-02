@@ -11,6 +11,7 @@ import {
   NotebookPen,
   Settings,
   ShieldCheck,
+  Sparkles,
   X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
