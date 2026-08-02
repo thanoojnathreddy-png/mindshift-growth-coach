@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchProfile } from "@/lib/mindshift";
 import { resetJourney, updateCommitment } from "@/lib/growth";
+import { InterventionSettings } from "@/components/intervention/InterventionSettings";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -192,6 +193,8 @@ function SettingsPage() {
             {save.isPending ? "Saving…" : "Save changes"}
           </Button>
         </section>
+
+        <InterventionSettings />
 
         <section className="surface-card mt-6 rounded-3xl border-destructive/30 p-7">
           <h2 className="text-lg font-semibold">Start over</h2>

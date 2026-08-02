@@ -108,6 +108,10 @@ export async function resetJourney(userId: string, mode: "commitment" | "everyth
       "coach_messages",
       "chat_messages",
       "weekly_insights",
+      "interventions",
+      "if_then_plans",
+      "consequence_logs",
+      "consequence_metrics",
     ] as const) {
       const { error } = await supabase.from(table).delete().eq("user_id", userId);
       if (error) throw error;
