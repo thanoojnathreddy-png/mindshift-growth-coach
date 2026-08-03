@@ -115,11 +115,25 @@ function SignupPage() {
           />
         </div>
         <Button type="submit" className="w-full rounded-xl" disabled={loading}>
-          {loading ? "Creating account…" : "Get Started"}
+          {loading ? "Creating account…" : "Start My Journey"}
         </Button>
-        <p className="text-center text-xs leading-relaxed text-muted-foreground">
-          Private by default. Only you can read your reflections.
+        <p className="text-center text-xs font-medium">
+          Free during beta · No credit card required
         </p>
+        <p className="text-center text-xs leading-relaxed text-muted-foreground">
+          Your reflections are tied to your account and only visible to you. MindShift supports
+          personal reflection and behaviour change — it isn't a substitute for professional medical
+          or mental-health care. See our{" "}
+          <Link to="/privacy" className="text-primary underline">
+            Privacy Policy
+          </Link>{" "}
+          and{" "}
+          <Link to="/terms" className="text-primary underline">
+            Terms
+          </Link>
+          .
+        </p>
+
       </form>
     </AuthShell>
   );
