@@ -477,7 +477,7 @@ function ScheduleSection({
   previewPending,
 }: {
   userId: string;
-  schedules: ReturnType<typeof Object> extends never ? never : any[];
+  schedules: ReminderSchedule[];
   onChanged: () => void;
   onPreview: (type: string) => void;
   previewPending: boolean;
