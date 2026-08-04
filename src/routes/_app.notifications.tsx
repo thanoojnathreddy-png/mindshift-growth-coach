@@ -25,6 +25,7 @@ import {
   upsertNotificationSettings,
   type NotificationSettings,
   type PushSupport,
+  type ReminderSchedule,
 } from "@/lib/notifications";
 import { sendReminderNow, sendTestNotification } from "@/lib/notifications.functions";
 import { Button } from "@/components/ui/button";
