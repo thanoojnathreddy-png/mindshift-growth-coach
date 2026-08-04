@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  BellRing,
   CalendarCheck,
   LayoutDashboard,
   LineChart,
@@ -19,6 +20,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
+import { registerServiceWorker } from "@/lib/notifications";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app")({
@@ -33,6 +35,7 @@ const navItems = [
   { to: "/interventions", label: "Interventions", icon: ShieldCheck },
   { to: "/journal", label: "Journal", icon: NotebookPen },
   { to: "/progress", label: "Progress", icon: LineChart },
+  { to: "/notifications", label: "Notifications", icon: BellRing },
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
@@ -50,6 +53,11 @@ function AppLayout() {
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  // Register the push service worker once the app shell mounts (no permission prompt here).
+  useEffect(() => {
+    void registerServiceWorker();
+  }, []);
 
   const signOut = async () => {
     await queryClient.cancelQueries();

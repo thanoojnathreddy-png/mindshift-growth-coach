@@ -271,6 +271,110 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_log: {
+        Row: {
+          content_mode: string | null
+          created_at: string
+          dedupe_key: string | null
+          error_detail: string | null
+          feedback: string | null
+          feedback_at: string | null
+          id: string
+          notification_type: string
+          schedule_id: string | null
+          scheduled_for: string | null
+          sent_at: string | null
+          status: string
+          timezone: string | null
+          user_id: string
+        }
+        Insert: {
+          content_mode?: string | null
+          created_at?: string
+          dedupe_key?: string | null
+          error_detail?: string | null
+          feedback?: string | null
+          feedback_at?: string | null
+          id?: string
+          notification_type: string
+          schedule_id?: string | null
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status?: string
+          timezone?: string | null
+          user_id: string
+        }
+        Update: {
+          content_mode?: string | null
+          created_at?: string
+          dedupe_key?: string | null
+          error_detail?: string | null
+          feedback?: string | null
+          feedback_at?: string | null
+          id?: string
+          notification_type?: string
+          schedule_id?: string | null
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status?: string
+          timezone?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_log_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "reminder_schedules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_settings: {
+        Row: {
+          content_mode: string
+          created_at: string
+          enabled: boolean
+          quiet_end: string | null
+          quiet_start: string | null
+          timezone: string
+          type_check_in: boolean
+          type_commitment: boolean
+          type_intervention: boolean
+          type_weekly: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content_mode?: string
+          created_at?: string
+          enabled?: boolean
+          quiet_end?: string | null
+          quiet_start?: string | null
+          timezone?: string
+          type_check_in?: boolean
+          type_commitment?: boolean
+          type_intervention?: boolean
+          type_weekly?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content_mode?: string
+          created_at?: string
+          enabled?: boolean
+          quiet_end?: string | null
+          quiet_start?: string | null
+          timezone?: string
+          type_check_in?: boolean
+          type_commitment?: boolean
+          type_intervention?: boolean
+          type_weekly?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           ai_personalization: boolean
@@ -322,6 +426,87 @@ export type Database = {
           reminder_preference?: string | null
           triggers?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          device_label: string | null
+          endpoint: string
+          failure_count: number
+          id: string
+          last_success_at: string | null
+          p256dh: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          device_label?: string | null
+          endpoint: string
+          failure_count?: number
+          id?: string
+          last_success_at?: string | null
+          p256dh: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          device_label?: string | null
+          endpoint?: string
+          failure_count?: number
+          id?: string
+          last_success_at?: string | null
+          p256dh?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reminder_schedules: {
+        Row: {
+          created_at: string
+          days_of_week: number[]
+          enabled: boolean
+          frequency: string
+          id: string
+          label: string | null
+          last_sent_on: string | null
+          notification_type: string
+          time_of_day: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          days_of_week?: number[]
+          enabled?: boolean
+          frequency?: string
+          id?: string
+          label?: string | null
+          last_sent_on?: string | null
+          notification_type?: string
+          time_of_day?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          days_of_week?: number[]
+          enabled?: boolean
+          frequency?: string
+          id?: string
+          label?: string | null
+          last_sent_on?: string | null
+          notification_type?: string
+          time_of_day?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
