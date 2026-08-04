@@ -22,6 +22,7 @@ import { Route as AppCoachRouteImport } from './routes/_app.coach'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppInterventionsRouteImport } from './routes/_app.interventions'
 import { Route as AppJournalRouteImport } from './routes/_app.journal'
+import { Route as AppNotificationsRouteImport } from './routes/_app.notifications'
 import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
 import { Route as AppProgressRouteImport } from './routes/_app.progress'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
@@ -92,6 +93,11 @@ const AppJournalRoute = AppJournalRouteImport.update({
   path: '/journal',
   getParentRoute: () => AppRoute,
 } as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppOnboardingRoute = AppOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/interventions': typeof AppInterventionsRoute
   '/journal': typeof AppJournalRoute
+  '/notifications': typeof AppNotificationsRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
   '/settings': typeof AppSettingsRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/interventions': typeof AppInterventionsRoute
   '/journal': typeof AppJournalRoute
+  '/notifications': typeof AppNotificationsRoute
   '/onboarding': typeof AppOnboardingRoute
   '/progress': typeof AppProgressRoute
   '/settings': typeof AppSettingsRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/interventions': typeof AppInterventionsRoute
   '/_app/journal': typeof AppJournalRoute
+  '/_app/notifications': typeof AppNotificationsRoute
   '/_app/onboarding': typeof AppOnboardingRoute
   '/_app/progress': typeof AppProgressRoute
   '/_app/settings': typeof AppSettingsRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/interventions'
     | '/journal'
+    | '/notifications'
     | '/onboarding'
     | '/progress'
     | '/settings'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/interventions'
     | '/journal'
+    | '/notifications'
     | '/onboarding'
     | '/progress'
     | '/settings'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/interventions'
     | '/_app/journal'
+    | '/_app/notifications'
     | '/_app/onboarding'
     | '/_app/progress'
     | '/_app/settings'
@@ -345,6 +357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppJournalRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/notifications': {
+      id: '/_app/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/onboarding': {
       id: '/_app/onboarding'
       path: '/onboarding'
@@ -389,6 +408,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppInterventionsRoute: typeof AppInterventionsRoute
   AppJournalRoute: typeof AppJournalRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppProgressRoute: typeof AppProgressRoute
   AppSettingsRoute: typeof AppSettingsRoute
@@ -400,6 +420,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppInterventionsRoute: AppInterventionsRoute,
   AppJournalRoute: AppJournalRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
   AppOnboardingRoute: AppOnboardingRoute,
   AppProgressRoute: AppProgressRoute,
   AppSettingsRoute: AppSettingsRoute,
