@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -24,6 +24,7 @@ import { getDailyCoaching, getWeeklyInsight } from "@/lib/coach.functions";
 import { CoachMarkdown } from "@/components/coach/CoachMarkdown";
 import { InterventionMode } from "@/components/intervention/InterventionMode";
 import { ConsequenceDashboard } from "@/components/intervention/ConsequenceDashboard";
+import { ReminderFeedbackPrompt } from "@/components/notifications/ReminderFeedbackPrompt";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -51,6 +52,22 @@ function DashboardPage() {
   const dailyCoaching = useServerFn(getDailyCoaching);
   const weeklyInsight = useServerFn(getWeeklyInsight);
   const [interventionOpen, setInterventionOpen] = useState(false);
+  const [fromReminder, setFromReminder] = useState(false);
+
+  // Notification click-through: open Intervention Mode straight away.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("source") === "reminder" || params.get("source") === "test") {
+      setFromReminder(true);
+    }
+    if (params.get("intervene") === "1") {
+      setInterventionOpen(true);
+    }
+    if (params.size > 0) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, []);
 
   const interventionsQuery = useQuery({
     queryKey: ["interventions", user?.id],
@@ -333,6 +350,8 @@ function DashboardPage() {
             )}
           </div>
         </section>
+
+        {fromReminder && <ReminderFeedbackPrompt />}
 
         <div className="mt-5">
           <ConsequenceDashboard />
