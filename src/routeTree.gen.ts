@@ -26,6 +26,7 @@ import { Route as AppOnboardingRouteImport } from './routes/_app.onboarding'
 import { Route as AppProgressRouteImport } from './routes/_app.progress'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiPublicHooksSendRemindersRouteImport } from './routes/api/public/hooks/send-reminders'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -111,6 +112,12 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksSendRemindersRoute =
+  ApiPublicHooksSendRemindersRouteImport.update({
+    id: '/api/public/hooks/send-reminders',
+    path: '/api/public/hooks/send-reminders',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/progress': typeof AppProgressRoute
   '/settings': typeof AppSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/public/hooks/send-reminders': typeof ApiPublicHooksSendRemindersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -147,6 +155,7 @@ export interface FileRoutesByTo {
   '/progress': typeof AppProgressRoute
   '/settings': typeof AppSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/public/hooks/send-reminders': typeof ApiPublicHooksSendRemindersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -167,6 +176,7 @@ export interface FileRoutesById {
   '/_app/progress': typeof AppProgressRoute
   '/_app/settings': typeof AppSettingsRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/public/hooks/send-reminders': typeof ApiPublicHooksSendRemindersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/settings'
     | '/api/chat'
+    | '/api/public/hooks/send-reminders'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/settings'
     | '/api/chat'
+    | '/api/public/hooks/send-reminders'
   id:
     | '__root__'
     | '/'
@@ -224,6 +236,7 @@ export interface FileRouteTypes {
     | '/_app/progress'
     | '/_app/settings'
     | '/api/chat'
+    | '/api/public/hooks/send-reminders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -236,6 +249,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   TermsRoute: typeof TermsRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPublicHooksSendRemindersRoute: typeof ApiPublicHooksSendRemindersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -359,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/send-reminders': {
+      id: '/api/public/hooks/send-reminders'
+      path: '/api/public/hooks/send-reminders'
+      fullPath: '/api/public/hooks/send-reminders'
+      preLoaderRoute: typeof ApiPublicHooksSendRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -396,6 +417,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   TermsRoute: TermsRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPublicHooksSendRemindersRoute: ApiPublicHooksSendRemindersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
