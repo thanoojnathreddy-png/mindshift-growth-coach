@@ -68,9 +68,14 @@ export async function sendPushToUser(
         keys,
       );
 
+      const headers = new Headers();
+      for (const [key, value] of Object.entries(request.headers)) {
+        if (typeof value === "string") headers.set(key, value);
+      }
+
       const response = await fetch(row.endpoint, {
         method: request.method,
-        headers: request.headers,
+        headers,
         body: request.body as unknown as BodyInit,
       });
 
