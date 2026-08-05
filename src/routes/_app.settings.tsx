@@ -289,6 +289,26 @@ function SettingsPage() {
             />
           </div>
         </section>
+
+        <section className="surface-card mt-6 rounded-3xl border-destructive/40 p-7">
+          <h2 className="text-lg font-semibold">Delete account</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Permanently deletes your account along with your commitment, check-ins, journal,
+            interventions, coach memory and registered devices. This cannot be undone.
+          </p>
+          <div className="mt-5">
+            <ResetButton
+              icon={Trash2}
+              destructive
+              label="Delete my account"
+              title="Delete your MindShift account?"
+              description="Everything you've written in MindShift will be permanently erased and you'll be signed out. This cannot be undone."
+              pending={deleteAccount.isPending}
+              onConfirm={() => deleteAccount.mutate()}
+            />
+          </div>
+        </section>
+
       </div>
     </div>
   );
