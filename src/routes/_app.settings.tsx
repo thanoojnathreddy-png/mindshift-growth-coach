@@ -97,6 +97,35 @@ function SettingsPage() {
     onError: (error: Error) => toast.error(error.message),
   });
 
+  const [newPassword, setNewPassword] = useState("");
+
+  const changePassword = useMutation({
+    mutationFn: async () => {
+      if (newPassword.trim().length < 8) {
+        throw new Error("Please choose a password of at least 8 characters.");
+      }
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      setNewPassword("");
+      toast.success("Password updated.");
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
+  const deleteAccount = useMutation({
+    mutationFn: () => removeAccount(),
+    onSuccess: async () => {
+      queryClient.clear();
+      await supabase.auth.signOut();
+      toast.success("Your account and data have been deleted.");
+      navigate({ to: "/" });
+    },
+    onError: (error: Error) =>
+      toast.error(error.message || "We couldn't delete your account. Please try again."),
+  });
+
   const reset = useMutation({
     mutationFn: (mode: "commitment" | "everything") => resetJourney(user!.id, mode),
     onSuccess: async () => {
@@ -106,6 +135,7 @@ function SettingsPage() {
     },
     onError: (error: Error) => toast.error(error.message),
   });
+
 
   if (profileQuery.isLoading) {
     return (
