@@ -180,8 +180,10 @@ function SettingsPage() {
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">
-              Saved as a preference — notifications arrive in a later release.
+              Sets the general tone for nudges. Exact times, days and quiet hours live in{" "}
+              <span className="font-medium text-foreground">Notifications</span>.
             </p>
+
           </div>
 
           <Button
