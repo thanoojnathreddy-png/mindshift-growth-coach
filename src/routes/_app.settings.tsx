@@ -102,6 +102,8 @@ function SettingsPage() {
   });
 
   const [newPassword, setNewPassword] = useState("");
+  const removeAccount = useServerFn(deleteMyAccount);
+
 
   const changePassword = useMutation({
     mutationFn: async () => {
