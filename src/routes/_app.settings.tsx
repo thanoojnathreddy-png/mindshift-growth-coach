@@ -198,6 +198,35 @@ function SettingsPage() {
 
         <InterventionSettings />
 
+        <section className="surface-card mt-6 rounded-3xl p-7">
+          <h2 className="text-lg font-semibold">Password</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Set a new password for this account. You'll stay signed in on this device.
+          </p>
+          <div className="mt-5 space-y-3 sm:max-w-sm">
+            <Label htmlFor="new-password">New password</Label>
+            <Input
+              id="new-password"
+              type="password"
+              autoComplete="new-password"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+              className="rounded-2xl"
+              placeholder="At least 8 characters"
+            />
+            <Button
+              variant="outline"
+              className="w-full rounded-xl sm:w-auto"
+              disabled={changePassword.isPending}
+              onClick={() => changePassword.mutate()}
+            >
+              {changePassword.isPending ? "Updating…" : "Update password"}
+            </Button>
+          </div>
+        </section>
+
+
+
         <section className="surface-card mt-6 rounded-3xl border-destructive/30 p-7">
           <h2 className="text-lg font-semibold">Start over</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
