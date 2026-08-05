@@ -1,8 +1,14 @@
 import { Link } from "@tanstack/react-router";
 
-export function Logo({ withWordmark = true }: { withWordmark?: boolean }) {
+export function Logo({
+  withWordmark = true,
+  withBeta = false,
+}: {
+  withWordmark?: boolean;
+  withBeta?: boolean;
+}) {
   return (
-    <Link to="/" className="flex items-center gap-2.5">
+    <Link to="/" className="flex items-center gap-2.5" aria-label="MindShift home">
       <span className="gradient-brand grid h-9 w-9 shrink-0 place-items-center rounded-xl shadow-soft">
         <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
           <path
@@ -17,7 +23,14 @@ export function Logo({ withWordmark = true }: { withWordmark?: boolean }) {
         </svg>
       </span>
       {withWordmark && (
-        <span className="font-display text-lg font-semibold tracking-tight">MindShift</span>
+        <span className="flex items-center gap-2">
+          <span className="font-display text-lg font-semibold tracking-tight">MindShift</span>
+          {withBeta && (
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+              Beta
+            </span>
+          )}
+        </span>
       )}
     </Link>
   );
