@@ -2,24 +2,26 @@ import { createFileRoute } from "@tanstack/react-router";
 
 /**
  * Cron endpoint: pg_cron hits this every 5 minutes to deliver due reminders.
- * Public prefix, so the caller is verified here with the project's apikey.
+ * Public prefix, so the caller is verified here with a server-only shared secret
+ * (never the publishable key, which every browser already has).
  */
 export const Route = createFileRoute("/api/public/hooks/send-reminders")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apiKey =
-          request.headers.get("apikey") ??
-          request.headers.get("authorization")?.replace("Bearer ", "");
-        const expected =
-          process.env["SUPABASE_PUBLISHABLE_KEY"] ?? process.env["SUPABASE_ANON_KEY"];
+        const expected = process.env["CRON_SECRET"];
+        const provided =
+          request.headers.get("x-cron-secret") ??
+          request.headers.get("authorization")?.replace("Bearer ", "") ??
+          "";
 
-        if (!expected || !apiKey || apiKey !== expected) {
+        if (!expected || provided !== expected) {
           return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
             headers: { "content-type": "application/json" },
           });
         }
+
 
         try {
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
