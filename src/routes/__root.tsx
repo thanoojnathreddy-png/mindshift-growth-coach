@@ -96,8 +96,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "MindShift — Break the patterns you keep repeating" },
       { name: "twitter:description", content: "MindShift helps you break recurring habits through reflection, daily accountability and coaching that never judges you." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0f117d78-cfcb-4644-ab3b-da4d53597db1/id-preview-4647d00a--5887f8d8-d2b1-405a-9995-4c036e8cc1ac.lovable.app-1785551444758.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0f117d78-cfcb-4644-ab3b-da4d53597db1/id-preview-4647d00a--5887f8d8-d2b1-405a-9995-4c036e8cc1ac.lovable.app-1785551444758.png" },
+      { property: "og:site_name", content: "MindShift" },
+
     ],
     links: [
       {
@@ -110,7 +110,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+
     ],
   }),
   shellComponent: RootShell,

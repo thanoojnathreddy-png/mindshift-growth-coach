@@ -17,12 +17,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_app/coach")({
   head: () => ({
     meta: [
-      { title: "AI Coach — MindShift" },
+      { title: "AI Coach | MindShift" },
       {
         name: "description",
         content: "Talk things through with a coach that remembers your triggers and your streak.",
       },
-      { property: "og:title", content: "AI Coach — MindShift" },
+      { property: "og:title", content: "AI Coach | MindShift" },
       {
         property: "og:description",
         content: "Talk things through with a coach that remembers your triggers and your streak.",

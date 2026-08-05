@@ -13,9 +13,9 @@ import { Progress } from "@/components/ui/progress";
 export const Route = createFileRoute("/_app/onboarding")({
   head: () => ({
     meta: [
-      { title: "Set your commitment — MindShift" },
+      { title: "Onboarding | MindShift" },
       { name: "description", content: "Name the pattern you want to change and why it matters." },
-      { property: "og:title", content: "Set your commitment — MindShift" },
+      { property: "og:title", content: "Onboarding | MindShift" },
       {
         property: "og:description",
         content: "Name the pattern you want to change and why it matters.",

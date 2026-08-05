@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 
-const title = "Privacy Policy — MindShift";
+const title = "Privacy Policy | MindShift";
 const description =
   "How MindShift stores your commitments, check-ins and intervention history, and how AI coaching uses that context.";
 
@@ -15,7 +15,9 @@ export const Route = createFileRoute("/privacy")({
       { property: "og:description", content: description },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
+      { property: "og:url", content: "https://mindshift-growth-coach.lovable.app/privacy" },
     ],
+    links: [{ rel: "canonical", href: "https://mindshift-growth-coach.lovable.app/privacy" }],
   }),
   component: PrivacyPage,
 });

@@ -18,9 +18,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_app/check-in")({
   head: () => ({
     meta: [
-      { title: "Daily check-in — MindShift" },
+      { title: "Daily Check-In | MindShift" },
       { name: "description", content: "One honest question a day, with no judgement attached." },
-      { property: "og:title", content: "Daily check-in — MindShift" },
+      { property: "og:title", content: "Daily Check-In | MindShift" },
       {
         property: "og:description",
         content: "One honest question a day, with no judgement attached.",

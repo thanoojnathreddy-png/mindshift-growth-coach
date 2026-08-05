@@ -24,9 +24,10 @@ import {
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 
-const title = "MindShift — Interrupt The Pattern Before It Repeats";
+const title = "MindShift — Break the Pattern Before It Repeats";
 const description =
-  "MindShift helps you interrupt recurring habits in the moment — with a pause, your own reasons, an if-then plan and AI coaching that never judges you.";
+  "MindShift helps you recognize recurring patterns, understand your triggers, and make more conscious choices with personalized AI support.";
+const socialImage = "https://mindshift-growth-coach.lovable.app/og-image.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,11 +37,18 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://mindshift-growth-coach.lovable.app/" },
+      { property: "og:image", content: socialImage },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: description },
+      { name: "twitter:image", content: socialImage },
     ],
+    links: [{ rel: "canonical", href: "https://mindshift-growth-coach.lovable.app/" }],
   }),
   component: Landing,
 });
+
 
 const features = [
   {

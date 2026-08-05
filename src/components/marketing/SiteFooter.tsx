@@ -7,7 +7,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-5 py-14">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="max-w-xs">
-            <Logo />
+            <Logo withBeta />
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               A calmer way to break the patterns you keep repeating — with reflection,
               accountability and coaching that never judges you.
@@ -40,12 +40,14 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="mailto:hello@mindshift.app"
-                  className="transition-colors hover:text-foreground"
-                >
-                  Contact
-                </a>
+                <Link to="/about" className="transition-colors hover:text-foreground">
+                  About MindShift
+                </Link>
+              </li>
+              <li>
+                <Link to="/feedback" className="transition-colors hover:text-foreground">
+                  Contact &amp; feedback
+                </Link>
               </li>
             </ul>
           </div>

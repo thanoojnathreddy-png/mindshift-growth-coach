@@ -12,3 +12,15 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /check-in
+Disallow: /coach
+Disallow: /interventions
+Disallow: /journal
+Disallow: /progress
+Disallow: /notifications
+Disallow: /settings
+Disallow: /onboarding
+Disallow: /reset-password
+
+Sitemap: https://mindshift-growth-coach.lovable.app/sitemap.xml

@@ -11,9 +11,9 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Log in — MindShift" },
+      { title: "Log In | MindShift" },
       { name: "description", content: "Log in to MindShift to continue your daily check-ins." },
-      { property: "og:title", content: "Log in — MindShift" },
+      { property: "og:title", content: "Log In | MindShift" },
       {
         property: "og:description",
         content: "Log in to MindShift to continue your daily check-ins.",

@@ -18,7 +18,7 @@ export function AuthShell({
   return (
     <div className="hero-glow flex min-h-screen flex-col">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
-        <Logo />
+        <Logo withBeta />
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <Link

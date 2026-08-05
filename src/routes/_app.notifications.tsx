@@ -45,13 +45,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_app/notifications")({
   head: () => ({
     meta: [
-      { title: "Notifications — MindShift" },
+      { title: "Notifications | MindShift" },
       {
         name: "description",
         content:
           "Choose when MindShift reaches you, keep reminders private, and set quiet hours.",
       },
-      { property: "og:title", content: "Notifications — MindShift" },
+      { property: "og:title", content: "Notifications | MindShift" },
       {
         property: "og:description",
         content: "Choose when MindShift reaches you, keep reminders private, and set quiet hours.",

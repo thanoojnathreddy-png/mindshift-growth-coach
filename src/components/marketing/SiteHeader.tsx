@@ -20,7 +20,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 glass">
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 md:flex md:justify-between">
-        <Logo />
+        <Logo withBeta />
         <nav
           aria-label="Main"
           className="hidden items-center gap-7 text-sm text-muted-foreground md:flex"

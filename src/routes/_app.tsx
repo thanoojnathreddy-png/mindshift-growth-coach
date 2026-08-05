@@ -21,12 +21,17 @@ import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { registerServiceWorker } from "@/lib/notifications";
+import { FeedbackDialog } from "@/components/feedback/FeedbackDialog";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app")({
   ssr: false,
+  head: () => ({
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
   component: AppLayout,
 });
+
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -100,7 +105,7 @@ function AppLayout() {
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col justify-between border-r border-sidebar-border bg-sidebar px-4 py-6 md:flex">
         <div>
           <div className="px-1.5">
-            <Logo />
+            <Logo withBeta />
           </div>
           <div className="mt-8">{nav}</div>
         </div>
@@ -109,6 +114,7 @@ function AppLayout() {
             <p className="text-xs font-medium">{user.email}</p>
             <p className="mt-1 text-xs text-muted-foreground">Private account</p>
           </div>
+          <FeedbackDialog className="w-full justify-start" />
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -126,7 +132,7 @@ function AppLayout() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="glass sticky top-0 z-40 flex items-center justify-between px-4 py-3 md:hidden">
-          <Logo />
+          <Logo withBeta />
           <div className="flex items-center gap-1">
             <ThemeToggle />
             <Button
@@ -142,6 +148,7 @@ function AppLayout() {
         {mobileOpen && (
           <div className="border-b border-border bg-sidebar px-4 py-4 md:hidden">
             {nav}
+            <FeedbackDialog className="mt-2 w-full justify-start" />
             <Button variant="ghost" className="mt-2 w-full justify-start rounded-xl" onClick={signOut}>
               <LogOut className="mr-2 h-4 w-4" />
               Sign out

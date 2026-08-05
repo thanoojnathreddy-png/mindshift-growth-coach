@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { RefreshCcw, RotateCcw, Save } from "lucide-react";
+import { RefreshCcw, RotateCcw, Save, Trash2 } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
+import { deleteMyAccount } from "@/lib/account.functions";
+
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchProfile } from "@/lib/mindshift";
@@ -34,9 +38,9 @@ import {
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — MindShift" },
+      { title: "Settings | MindShift" },
       { name: "description", content: "Edit your commitment, reminders, or start a fresh journey." },
-      { property: "og:title", content: "Settings — MindShift" },
+      { property: "og:title", content: "Settings | MindShift" },
       {
         property: "og:description",
         content: "Edit your commitment, reminders, or start a fresh journey.",
@@ -97,6 +101,37 @@ function SettingsPage() {
     onError: (error: Error) => toast.error(error.message),
   });
 
+  const [newPassword, setNewPassword] = useState("");
+  const removeAccount = useServerFn(deleteMyAccount);
+
+
+  const changePassword = useMutation({
+    mutationFn: async () => {
+      if (newPassword.trim().length < 8) {
+        throw new Error("Please choose a password of at least 8 characters.");
+      }
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      setNewPassword("");
+      toast.success("Password updated.");
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
+  const deleteAccount = useMutation({
+    mutationFn: () => removeAccount(),
+    onSuccess: async () => {
+      queryClient.clear();
+      await supabase.auth.signOut();
+      toast.success("Your account and data have been deleted.");
+      navigate({ to: "/" });
+    },
+    onError: (error: Error) =>
+      toast.error(error.message || "We couldn't delete your account. Please try again."),
+  });
+
   const reset = useMutation({
     mutationFn: (mode: "commitment" | "everything") => resetJourney(user!.id, mode),
     onSuccess: async () => {
@@ -106,6 +141,7 @@ function SettingsPage() {
     },
     onError: (error: Error) => toast.error(error.message),
   });
+
 
   if (profileQuery.isLoading) {
     return (
@@ -180,8 +216,10 @@ function SettingsPage() {
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">
-              Saved as a preference — notifications arrive in a later release.
+              Sets the general tone for nudges. Exact times, days and quiet hours live in{" "}
+              <span className="font-medium text-foreground">Notifications</span>.
             </p>
+
           </div>
 
           <Button
@@ -195,6 +233,35 @@ function SettingsPage() {
         </section>
 
         <InterventionSettings />
+
+        <section className="surface-card mt-6 rounded-3xl p-7">
+          <h2 className="text-lg font-semibold">Password</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Set a new password for this account. You'll stay signed in on this device.
+          </p>
+          <div className="mt-5 space-y-3 sm:max-w-sm">
+            <Label htmlFor="new-password">New password</Label>
+            <Input
+              id="new-password"
+              type="password"
+              autoComplete="new-password"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+              className="rounded-2xl"
+              placeholder="At least 8 characters"
+            />
+            <Button
+              variant="outline"
+              className="w-full rounded-xl sm:w-auto"
+              disabled={changePassword.isPending}
+              onClick={() => changePassword.mutate()}
+            >
+              {changePassword.isPending ? "Updating…" : "Update password"}
+            </Button>
+          </div>
+        </section>
+
+
 
         <section className="surface-card mt-6 rounded-3xl border-destructive/30 p-7">
           <h2 className="text-lg font-semibold">Start over</h2>
@@ -222,6 +289,26 @@ function SettingsPage() {
             />
           </div>
         </section>
+
+        <section className="surface-card mt-6 rounded-3xl border-destructive/40 p-7">
+          <h2 className="text-lg font-semibold">Delete account</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Permanently deletes your account along with your commitment, check-ins, journal,
+            interventions, coach memory and registered devices. This cannot be undone.
+          </p>
+          <div className="mt-5">
+            <ResetButton
+              icon={Trash2}
+              destructive
+              label="Delete my account"
+              title="Delete your MindShift account?"
+              description="Everything you've written in MindShift will be permanently erased and you'll be signed out. This cannot be undone."
+              pending={deleteAccount.isPending}
+              onConfirm={() => deleteAccount.mutate()}
+            />
+          </div>
+        </section>
+
       </div>
     </div>
   );

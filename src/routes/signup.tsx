@@ -11,12 +11,12 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "Create your account — MindShift" },
+      { title: "Create Account | MindShift" },
       {
         name: "description",
         content: "Start with one pattern. Create your free MindShift account in under a minute.",
       },
-      { property: "og:title", content: "Create your account — MindShift" },
+      { property: "og:title", content: "Create Account | MindShift" },
       {
         property: "og:description",
         content: "Start with one pattern. Create your free MindShift account in under a minute.",

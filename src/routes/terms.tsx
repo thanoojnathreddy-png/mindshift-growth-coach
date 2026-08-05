@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 
-const title = "Terms of Service — MindShift";
+const title = "Terms of Service | MindShift";
 const description =
   "The terms for using MindShift during its free beta, including what the product is and what it isn't.";
 
@@ -15,7 +15,9 @@ export const Route = createFileRoute("/terms")({
       { property: "og:description", content: description },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
+      { property: "og:url", content: "https://mindshift-growth-coach.lovable.app/terms" },
     ],
+    links: [{ rel: "canonical", href: "https://mindshift-growth-coach.lovable.app/terms" }],
   }),
   component: TermsPage,
 });
