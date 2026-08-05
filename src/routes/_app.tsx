@@ -21,6 +21,7 @@ import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { registerServiceWorker } from "@/lib/notifications";
+import { FeedbackDialog } from "@/components/feedback/FeedbackDialog";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app")({
@@ -113,6 +114,7 @@ function AppLayout() {
             <p className="text-xs font-medium">{user.email}</p>
             <p className="mt-1 text-xs text-muted-foreground">Private account</p>
           </div>
+          <FeedbackDialog className="w-full justify-start" />
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -146,6 +148,7 @@ function AppLayout() {
         {mobileOpen && (
           <div className="border-b border-border bg-sidebar px-4 py-4 md:hidden">
             {nav}
+            <FeedbackDialog className="mt-2 w-full justify-start" />
             <Button variant="ghost" className="mt-2 w-full justify-start rounded-xl" onClick={signOut}>
               <LogOut className="mr-2 h-4 w-4" />
               Sign out
