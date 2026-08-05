@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 
-const title = "Privacy Policy — MindShift";
+const title = "Privacy Policy | MindShift";
 const description =
   "How MindShift stores your commitments, check-ins and intervention history, and how AI coaching uses that context.";
 

@@ -32,12 +32,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard — MindShift" },
+      { title: "Dashboard | MindShift" },
       {
         name: "description",
         content: "Your AI coach, streak and today's check-in in one calm place.",
       },
-      { property: "og:title", content: "Dashboard — MindShift" },
+      { property: "og:title", content: "Dashboard | MindShift" },
       {
         property: "og:description",
         content: "Your AI coach, streak and today's check-in in one calm place.",

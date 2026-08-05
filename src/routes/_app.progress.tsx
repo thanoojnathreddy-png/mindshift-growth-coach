@@ -27,9 +27,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_app/progress")({
   head: () => ({
     meta: [
-      { title: "Progress — MindShift" },
+      { title: "Progress | MindShift" },
       { name: "description", content: "See your streaks, patterns and reflections over time." },
-      { property: "og:title", content: "Progress — MindShift" },
+      { property: "og:title", content: "Progress | MindShift" },
       {
         property: "og:description",
         content: "See your streaks, patterns and reflections over time.",

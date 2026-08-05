@@ -27,12 +27,12 @@ import {
 export const Route = createFileRoute("/_app/interventions")({
   head: () => ({
     meta: [
-      { title: "Interventions — MindShift" },
+      { title: "Intervention | MindShift" },
       {
         name: "description",
         content: "Every pause you created, the triggers behind them and what actually helped.",
       },
-      { property: "og:title", content: "Interventions — MindShift" },
+      { property: "og:title", content: "Intervention | MindShift" },
       {
         property: "og:description",
         content: "Every pause you created, the triggers behind them and what actually helped.",

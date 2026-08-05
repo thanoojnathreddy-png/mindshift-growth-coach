@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 
-const title = "Terms of Service — MindShift";
+const title = "Terms of Service | MindShift";
 const description =
   "The terms for using MindShift during its free beta, including what the product is and what it isn't.";
 

@@ -34,9 +34,9 @@ import {
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — MindShift" },
+      { title: "Settings | MindShift" },
       { name: "description", content: "Edit your commitment, reminders, or start a fresh journey." },
-      { property: "og:title", content: "Settings — MindShift" },
+      { property: "og:title", content: "Settings | MindShift" },
       {
         property: "og:description",
         content: "Edit your commitment, reminders, or start a fresh journey.",

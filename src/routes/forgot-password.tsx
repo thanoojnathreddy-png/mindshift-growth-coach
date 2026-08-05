@@ -11,9 +11,9 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
     meta: [
-      { title: "Reset your password — MindShift" },
+      { title: "Reset Password | MindShift" },
       { name: "description", content: "Send yourself a secure link to reset your MindShift password." },
-      { property: "og:title", content: "Reset your password — MindShift" },
+      { property: "og:title", content: "Reset Password | MindShift" },
       {
         property: "og:description",
         content: "Send yourself a secure link to reset your MindShift password.",
