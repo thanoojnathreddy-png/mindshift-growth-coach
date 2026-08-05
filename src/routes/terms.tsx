@@ -15,7 +15,9 @@ export const Route = createFileRoute("/terms")({
       { property: "og:description", content: description },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
+      { property: "og:url", content: "https://mindshift-growth-coach.lovable.app/terms" },
     ],
+    links: [{ rel: "canonical", href: "https://mindshift-growth-coach.lovable.app/terms" }],
   }),
   component: TermsPage,
 });

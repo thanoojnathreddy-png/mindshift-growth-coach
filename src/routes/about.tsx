@@ -23,7 +23,7 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-export default function AboutPage() {
+function AboutPage() {
   return (
     <div className="min-h-dvh">
       <SiteHeader />
