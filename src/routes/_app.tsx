@@ -104,7 +104,7 @@ function AppLayout() {
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col justify-between border-r border-sidebar-border bg-sidebar px-4 py-6 md:flex">
         <div>
           <div className="px-1.5">
-            <Logo />
+            <Logo withBeta />
           </div>
           <div className="mt-8">{nav}</div>
         </div>
@@ -130,7 +130,7 @@ function AppLayout() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="glass sticky top-0 z-40 flex items-center justify-between px-4 py-3 md:hidden">
-          <Logo />
+          <Logo withBeta />
           <div className="flex items-center gap-1">
             <ThemeToggle />
             <Button
