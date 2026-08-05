@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { RefreshCcw, RotateCcw, Save } from "lucide-react";
+import { RefreshCcw, RotateCcw, Save, Trash2 } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
+import { deleteMyAccount } from "@/lib/account.functions";
+
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchProfile } from "@/lib/mindshift";
