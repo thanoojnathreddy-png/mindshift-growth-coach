@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 
-const title = "About MindShift | MindShift";
+const title = "About | MindShift";
 const description =
   "Why MindShift exists: a calm, private tool that helps you interrupt recurring patterns in the moment instead of just tracking them.";
 const url = "https://mindshift-growth-coach.lovable.app/about";
