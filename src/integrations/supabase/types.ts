@@ -169,6 +169,39 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback: {
+        Row: {
+          browser_category: string | null
+          created_at: string
+          device_category: string | null
+          feedback_type: string
+          id: string
+          message: string
+          page_path: string | null
+          user_id: string | null
+        }
+        Insert: {
+          browser_category?: string | null
+          created_at?: string
+          device_category?: string | null
+          feedback_type: string
+          id?: string
+          message: string
+          page_path?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          browser_category?: string | null
+          created_at?: string
+          device_category?: string | null
+          feedback_type?: string
+          id?: string
+          message?: string
+          page_path?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       if_then_plans: {
         Row: {
           alternative: string
