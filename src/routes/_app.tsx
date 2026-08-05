@@ -25,8 +25,12 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app")({
   ssr: false,
+  head: () => ({
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
   component: AppLayout,
 });
+
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
