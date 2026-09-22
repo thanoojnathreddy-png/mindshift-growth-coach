@@ -240,6 +240,8 @@ export type Database = {
           helped: boolean | null
           id: string
           message: string | null
+          pause_completed: boolean | null
+          source: string | null
           trigger_key: string | null
           updated_at: string
           user_id: string
@@ -254,6 +256,8 @@ export type Database = {
           helped?: boolean | null
           id?: string
           message?: string | null
+          pause_completed?: boolean | null
+          source?: string | null
           trigger_key?: string | null
           updated_at?: string
           user_id: string
@@ -268,6 +272,8 @@ export type Database = {
           helped?: boolean | null
           id?: string
           message?: string | null
+          pause_completed?: boolean | null
+          source?: string | null
           trigger_key?: string | null
           updated_at?: string
           user_id?: string
