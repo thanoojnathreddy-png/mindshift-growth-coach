@@ -23,6 +23,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AppCheckInRouteImport } from './routes/_app.check-in'
 import { Route as AppCoachRouteImport } from './routes/_app.coach'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppInterventionRouteImport } from './routes/_app.intervention'
 import { Route as AppInterventionsRouteImport } from './routes/_app.interventions'
 import { Route as AppJournalRouteImport } from './routes/_app.journal'
 import { Route as AppNotificationsRouteImport } from './routes/_app.notifications'
@@ -101,6 +102,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppInterventionRoute = AppInterventionRouteImport.update({
+  id: '/intervention',
+  path: '/intervention',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppInterventionsRoute = AppInterventionsRouteImport.update({
   id: '/interventions',
   path: '/interventions',
@@ -157,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/check-in': typeof AppCheckInRoute
   '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
+  '/intervention': typeof AppInterventionRoute
   '/interventions': typeof AppInterventionsRoute
   '/journal': typeof AppJournalRoute
   '/notifications': typeof AppNotificationsRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/check-in': typeof AppCheckInRoute
   '/coach': typeof AppCoachRoute
   '/dashboard': typeof AppDashboardRoute
+  '/intervention': typeof AppInterventionRoute
   '/interventions': typeof AppInterventionsRoute
   '/journal': typeof AppJournalRoute
   '/notifications': typeof AppNotificationsRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/_app/check-in': typeof AppCheckInRoute
   '/_app/coach': typeof AppCoachRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/intervention': typeof AppInterventionRoute
   '/_app/interventions': typeof AppInterventionsRoute
   '/_app/journal': typeof AppJournalRoute
   '/_app/notifications': typeof AppNotificationsRoute
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/check-in'
     | '/coach'
     | '/dashboard'
+    | '/intervention'
     | '/interventions'
     | '/journal'
     | '/notifications'
@@ -253,6 +263,7 @@ export interface FileRouteTypes {
     | '/check-in'
     | '/coach'
     | '/dashboard'
+    | '/intervention'
     | '/interventions'
     | '/journal'
     | '/notifications'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/_app/check-in'
     | '/_app/coach'
     | '/_app/dashboard'
+    | '/_app/intervention'
     | '/_app/interventions'
     | '/_app/journal'
     | '/_app/notifications'
@@ -403,6 +415,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/intervention': {
+      id: '/_app/intervention'
+      path: '/intervention'
+      fullPath: '/intervention'
+      preLoaderRoute: typeof AppInterventionRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/interventions': {
       id: '/_app/interventions'
       path: '/interventions'
@@ -466,6 +485,7 @@ interface AppRouteChildren {
   AppCheckInRoute: typeof AppCheckInRoute
   AppCoachRoute: typeof AppCoachRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppInterventionRoute: typeof AppInterventionRoute
   AppInterventionsRoute: typeof AppInterventionsRoute
   AppJournalRoute: typeof AppJournalRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
@@ -478,6 +498,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCheckInRoute: AppCheckInRoute,
   AppCoachRoute: AppCoachRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppInterventionRoute: AppInterventionRoute,
   AppInterventionsRoute: AppInterventionsRoute,
   AppJournalRoute: AppJournalRoute,
   AppNotificationsRoute: AppNotificationsRoute,
@@ -506,3 +527,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

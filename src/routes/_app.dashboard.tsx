@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -22,7 +22,6 @@ import { fetchJournal } from "@/lib/growth";
 import { fetchInterventions, interventionPatterns } from "@/lib/intervention";
 import { getDailyCoaching, getWeeklyInsight } from "@/lib/coach.functions";
 import { CoachMarkdown } from "@/components/coach/CoachMarkdown";
-import { InterventionMode } from "@/components/intervention/InterventionMode";
 import { ConsequenceDashboard } from "@/components/intervention/ConsequenceDashboard";
 import { ReminderFeedbackPrompt } from "@/components/notifications/ReminderFeedbackPrompt";
 import { Button } from "@/components/ui/button";
@@ -51,10 +50,10 @@ function DashboardPage() {
   const { user } = useAuth();
   const dailyCoaching = useServerFn(getDailyCoaching);
   const weeklyInsight = useServerFn(getWeeklyInsight);
-  const [interventionOpen, setInterventionOpen] = useState(false);
+  const navigate = useNavigate();
   const [fromReminder, setFromReminder] = useState(false);
 
-  // Notification click-through: open Intervention Mode straight away.
+  // Notification click-through: hand straight over to the dedicated pause screen.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
@@ -62,12 +61,13 @@ function DashboardPage() {
       setFromReminder(true);
     }
     if (params.get("intervene") === "1") {
-      setInterventionOpen(true);
+      navigate({ to: "/intervention", search: { source: "reminder" }, replace: true });
+      return;
     }
     if (params.size > 0) {
       window.history.replaceState({}, "", window.location.pathname);
     }
-  }, []);
+  }, [navigate]);
 
   const interventionsQuery = useQuery({
     queryKey: ["interventions", user?.id],
@@ -182,13 +182,11 @@ function DashboardPage() {
                 afterwards.
               </p>
             </div>
-            <Button
-              size="lg"
-              className="shrink-0 rounded-2xl px-7 py-6 text-base"
-              onClick={() => setInterventionOpen(true)}
-            >
-              <ShieldCheck className="mr-2 h-5 w-5" />
-              I'm about to slip
+            <Button asChild size="lg" className="shrink-0 rounded-2xl px-7 py-6 text-base">
+              <Link to="/intervention" search={{ source: "manual" }}>
+                <ShieldCheck className="mr-2 h-5 w-5" />
+                I'm about to slip
+              </Link>
             </Button>
           </div>
           {interventionPattern.observations.length > 0 && (
@@ -357,8 +355,6 @@ function DashboardPage() {
           <ConsequenceDashboard />
         </div>
       </div>
-
-      {interventionOpen && <InterventionMode onClose={() => setInterventionOpen(false)} />}
     </div>
   );
 }

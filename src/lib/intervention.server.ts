@@ -30,6 +30,8 @@ export type InterventionInput = {
   triggerKey: string | null;
   emotion: string | null;
   reason: string | null;
+  source?: string | null;
+  pauseCompleted?: boolean | null;
 };
 
 export type GeneratedIntervention = {
