@@ -4,10 +4,18 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 export const generateIntervention = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator(
-    (input: { triggerKey?: string | null; emotion?: string | null; reason?: string | null }) => ({
+    (input: {
+      triggerKey?: string | null;
+      emotion?: string | null;
+      reason?: string | null;
+      source?: string | null;
+      pauseCompleted?: boolean | null;
+    }) => ({
       triggerKey: input?.triggerKey ?? null,
       emotion: input?.emotion ?? null,
       reason: input?.reason ?? null,
+      source: input?.source ?? null,
+      pauseCompleted: input?.pauseCompleted ?? null,
     }),
   )
   .handler(async ({ data, context }) => {
