@@ -85,9 +85,23 @@ function CoachPage() {
 
   const busy = status === "submitted" || status === "streaming";
 
+  const sentFromPause = useRef(false);
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (sentFromPause.current || history.isLoading || !user) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("from") !== "intervention") return;
+    sentFromPause.current = true;
+    const trigger = params.get("trigger");
+    window.history.replaceState(null, "", "/coach");
+    void send(
+      `I just paused an urge${trigger ? ` (trigger: ${trigger})` : ""}. Help me walk through this choice using my commitment, my reasons and my if-then plan.`,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.isLoading, user]);
 
   useEffect(() => {
     if (!busy) inputRef.current?.focus();
