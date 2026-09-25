@@ -242,7 +242,7 @@ export function buildReminderContent(
 ): { title: string; body: string; url: string } {
   const url =
     notificationType === "intervention"
-      ? "/dashboard?intervene=1&source=reminder"
+      ? "/intervention?source=reminder"
       : notificationType === "check_in"
         ? "/check-in?source=reminder"
         : notificationType === "weekly"
