@@ -33,7 +33,7 @@ type Source = "manual" | "reminder" | "friction-shield";
 type Step = "pause" | "remember" | "plan" | "choice" | "feedback" | "done";
 
 export const Route = createFileRoute("/_app/intervention")({
-  validateSearch: (search: Record<string, unknown>): { source: Source; trigger?: string } => ({
+  validateSearch: (search: Record<string, unknown>): { source: Source; trigger?: string | undefined } => ({
     source: (["manual", "reminder", "friction-shield"] as const).includes(
       search["source"] as Source,
     )
